@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1f1a"><link rel="manifest" href="/manifest.json"><link rel="icon" href="/icon.svg">
+<title>WA Sender</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1f1a;--bg2:#10302a;--card:#143a33;--line:#ffffff14;--gold:#d4b36a;--green:#25d366;--text:#eef3f1;--mut:#8fa8a0;--red:#e5736b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);background:radial-gradient(1200px 600px at 50% -10%,#1b5a4c55,transparent),var(--bg);min-height:100vh}
+h1,h2,h3,.serif{font-family:'Playfair Display',Georgia,serif;font-weight:600;margin:0}
+header{padding:calc(env(safe-area-inset-top)+18px) 20px 10px;display:flex;justify-content:space-between;align-items:center;max-width:680px;margin:auto}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--green),#128c7e);display:grid;place-items:center;box-shadow:0 4px 14px #25d36655}
+.brand h1{font-size:21px;letter-spacing:.3px}.brand h1 b{color:var(--gold);font-weight:600}
+.pill{font-size:10px;letter-spacing:1.2px;padding:3px 8px;border-radius:20px;border:1px solid var(--gold);color:var(--gold);margin-left:6px;vertical-align:middle}
+.pill.live{border-color:var(--green);color:var(--green)}
+.iconbtn{background:#ffffff0d;border:1px solid var(--line);color:var(--mut);border-radius:12px;padding:8px 12px;font-size:13px}
+main{padding:8px 18px 110px;max-width:680px;margin:auto}
+.card{background:linear-gradient(180deg,#ffffff0a,#ffffff04);border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:14px;backdrop-filter:blur(8px);box-shadow:0 10px 30px #0004}
+.card h3{font-size:19px;margin-bottom:4px}.sub{color:var(--mut);font-size:13px;margin-bottom:14px}
+label{display:block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin:14px 0 6px}
+input,textarea,select{width:100%;padding:13px 14px;background:#00000030;border:1px solid var(--line);border-radius:14px;color:var(--text);font:inherit;font-size:15px;outline:0;transition:.2s}
+input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d4b36a22}
+select option{background:#10302a}textarea{resize:none;line-height:1.5}::placeholder{color:#6b857d}
+.btn{width:100%;margin-top:18px;padding:14px;border:0;border-radius:14px;font:inherit;font-weight:600;font-size:15px;color:#06231b;background:linear-gradient(135deg,#e6c97f,var(--gold));box-shadow:0 8px 22px #d4b36a40;transition:.15s;display:flex;gap:8px;justify-content:center;align-items:center}
+.btn:active{transform:scale(.98)}.btn.ghost{background:#ffffff10;color:var(--text);box-shadow:none;border:1px solid var(--line)}
+.btn.del{width:auto;margin:0;padding:8px 12px;background:#e5736b1a;color:var(--red);box-shadow:none;font-size:13px}
+.hint{color:var(--mut);font-size:12px;margin-top:6px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.c{display:flex;gap:12px;align-items:center;min-width:0}.c>div:last-child{min-width:0}
+.av{width:42px;height:42px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:600;color:#06231b;background:linear-gradient(135deg,#e6c97f,#b99444)}
+.name{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ph{color:var(--mut);font-size:13px}
+.contact{padding:14px 16px;margin-bottom:10px}
+.bub{max-width:88%;padding:11px 14px;border-radius:18px;margin-bottom:12px;font-size:14.5px;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+.bub.out{margin-left:auto;background:linear-gradient(135deg,#1d6f5c,#14594a);border-bottom-right-radius:5px}
+.bub.in{background:#ffffff12;border:1px solid var(--line);border-bottom-left-radius:5px}
+.meta{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:#ffffffa0;margin-top:6px}.who{font-size:12px;color:var(--gold);margin-bottom:4px;font-weight:500}
+.st{font-weight:600}.st.failed{color:#ff9d96}.st.read{color:#6ec8ff}.st.delivered,.st.sent{color:#cfe}
+.empty{text-align:center;color:var(--mut);padding:40px 0}
+nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom)+14px);display:flex;gap:4px;padding:6px;background:#0b1f1ae8;border:1px solid var(--line);border-radius:22px;backdrop-filter:blur(14px);box-shadow:0 12px 34px #0008;width:min(360px,calc(100% - 28px))}
+nav button{flex:1;border:0;background:none;color:var(--mut);padding:9px 0 7px;border-radius:16px;font:inherit;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px;transition:.2s}
+nav button.on{background:#d4b36a1f;color:var(--gold)}nav svg{width:22px;height:22px}
+.login{min-height:100vh;display:grid;place-items:center;padding:20px}.login .card{width:100%;max-width:380px;text-align:center;padding:32px 24px}
+.login .logo{width:62px;height:62px;border-radius:20px;margin:0 auto 16px}.login h2{font-size:28px}.login h2 b{color:var(--gold);font-weight:600}
+.login input{text-align:center;margin-top:20px}.err{color:var(--red);font-size:13px;margin-top:10px;min-height:16px}
+.hide{display:none!important}.fade{animation:f .35s ease}@keyframes f{from{opacity:0;transform:translateY(8px)}}
+.res{margin-top:14px;font-size:13px;text-align:center;color:var(--gold)}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2z"/></symbol>
+</defs></svg>
+
+<div id="login" class="login hide fade"><div class="card">
+ <div class="logo"><svg width="32" height="32"><use href="#i-chat"/></svg></div>
+ <h2>WA <b>Sender</b></h2><p class="sub" style="margin:6px 0 0">Apne customers se seedha jud'o</p>
+ <input id="pw" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')login()">
+ <button class="btn" onclick="login()">Sign in</button><div id="lerr" class="err"></div>
+</div></div>
+
+<div id="app" class="hide">
+<header><div class="brand"><div class="logo"><svg width="20" height="20"><use href="#i-chat"/></svg></div><h1>WA <b>Sender</b><span id="mode" class="pill"></span></h1></div><button class="iconbtn" onclick="logout()">Logout</button></header>
+<main>
+<section id="t-send" class="fade">
+ <div class="card"><h3>New message</h3><div class="sub">Customers ko personalised message bhejo</div>
+  <label>Recipient</label><select id="target"></select>
+  <label>Message type</label>
+  <select id="type" onchange="tt()"><option value="text">Custom text</option><option value="template">Approved template</option></select>
+  <div id="f-text"><label>Message</label><textarea id="text" rows="5" placeholder="Hello {name}, aapka order ready hai!"></textarea><div class="hint">Tip: <b>{name}</b> customer ka naam automatically bhar dega. Custom text tab jata hai jab customer ne last 24 ghante me reply kiya ho.</div></div>
+  <div id="f-tpl" class="hide"><label>Template name</label><input id="tname" placeholder="order_update"><label>Language</label><input id="tlang" value="en" placeholder="en, hi, en_US"><label>Variables</label><input id="tparams" placeholder="{name}, ORD123"><div class="hint">Comma se alag karo, template ke {{1}}, {{2}} ke order me.</div></div>
+  <button class="btn" onclick="sendMsg()"><svg width="18" height="18"><use href="#i-send"/></svg>Send message</button><div id="sres" class="res"></div>
+ </div>
+</section>
+<section id="t-contacts" class="hide">
+ <div class="card"><h3>Add contact</h3><div class="sub">Country code ke saath number</div>
+  <input id="cn" placeholder="Full name" style="margin-bottom:10px"><input id="cp" placeholder="919876543210" inputmode="tel">
+  <button class="btn" onclick="addC()">Save contact</button>
+  <label style="margin-top:22px">Bulk import</label><textarea id="bulk" rows="3" placeholder="Rahul, 919876543210&#10;Priya, 919812345678"></textarea>
+  <button class="btn ghost" onclick="bulkC()">Import list</button></div>
+ <div id="clist"></div>
+</section>
+<section id="t-history" class="hide"><div id="hlist"></div></section>
+</main>
+<nav>
+ <button data-t="send" class="on"><svg><use href="#i-send"/></svg>Send</button>
+ <button data-t="contacts"><svg><use href="#i-users"/></svg>Contacts</button>
+ <button data-t="history"><svg><use href="#i-clock"/></svg>History</button>
+</nav></div>
+<script>
+let T=localStorage.t;const $=i=>document.getElementById(i);
+async function api(p,m='GET',b){const r=await fetch('/api/'+p,{method:m,headers:{'Content-Type':'application/json',Authorization:'Bearer '+T},body:b?JSON.stringify(b):undefined});
+ if(r.status===401&&p!=='login'){logout();throw 0}const j=await r.json();if(!r.ok)throw new Error(j.error);return j}
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ini=c=>(c.name||c.phone||'?').trim()[0].toUpperCase();
+function show(){const a=!!T;$('login').classList.toggle('hide',a);$('app').classList.toggle('hide',!a);if(a)loadC()}
+async function login(){try{const j=await api('login','POST',{password:$('pw').value});T=j.token;localStorage.t=T;localStorage.mock=j.mock;$('pw').value='';show()}catch(e){$('lerr').textContent=(e&&e.message)||'Server se connect nahi ho paya'}}
+function logout(){T=null;delete localStorage.t;show()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+ ['send','contacts','history'].forEach(t=>{const s=$('t-'+t);s.classList.toggle('hide',t!==b.dataset.t);if(t===b.dataset.t){s.classList.remove('fade');void s.offsetWidth;s.classList.add('fade')}});
+ b.dataset.t==='history'?loadH():loadC()});
+function tt(){const t=$('type').value==='template';$('f-text').classList.toggle('hide',t);$('f-tpl').classList.toggle('hide',!t)}
+async function loadC(){const cs=await api('contacts');const m=$('mode'),mock=localStorage.mock==='true';m.textContent=mock?'TEST':'LIVE';m.className='pill'+(mock?'':' live');
+ $('target').innerHTML='<option value="all">All opted-in contacts ('+cs.filter(c=>c.opted_in).length+')</option>'+cs.map(c=>`<option value="${c.id}">${esc(c.name||c.phone)} · ${c.phone}</option>`).join('');
+ $('clist').innerHTML=cs.map(c=>`<div class="card contact row"><div class="c"><div class="av">${esc(ini(c))}</div><div><div class="name">${esc(c.name)||'Unnamed'}</div><div class="ph">+${c.phone}${c.opted_in?'':' · opted out'}</div></div></div><button class="btn del" onclick="delC(${c.id})">Delete</button></div>`).join('')||'<div class="empty">Abhi koi contact nahi</div>'}
+async function addC(){await api('contacts','POST',{name:$('cn').value,phone:$('cp').value});$('cn').value=$('cp').value='';loadC()}
+async function bulkC(){const l=$('bulk').value.split('\n').map(x=>x.split(',').map(s=>s.trim())).filter(x=>x[1]).map(x=>({name:x[0],phone:x[1]}));const r=await api('contacts','POST',l);alert(r.added+' contacts added');$('bulk').value='';loadC()}
+async function delC(id){if(confirm('Delete this contact?')){await api('contacts/'+id,'DELETE');loadC()}}
+async function sendMsg(){const t=$('type').value,v=$('target').value;
+ const b={contactIds:v==='all'?'all':[+v],type:t,text:$('text').value,template:$('tname').value.trim(),language:$('tlang').value.trim(),params:$('tparams').value?$('tparams').value.split(',').map(s=>s.trim()):[]};
+ if(v==='all'&&!confirm('Sabhi contacts ko bhejna hai?'))return;$('sres').textContent='Sending…';
+ try{const r=await api('send','POST',b);$('sres').textContent=`✓ ${r.sent} sent${r.failed?` · ${r.failed} failed`:''}${r.lastError?' — '+r.lastError:''}`}catch(e){$('sres').textContent='⚠ '+e.message}}
+async function loadH(){const m=await api('messages');$('hlist').innerHTML=m.map(x=>{const o=x.direction!=='in';return `<div class="bub ${o?'out':'in'}"><div class="who">${esc(x.name||'+'+x.phone)}</div>${esc(x.body)}<div class="meta"><span>${esc(x.created_at)}</span><span class="st ${x.status}">${o?x.status:'reply'}</span></div>${x.error?`<div class="meta" style="color:#ff9d96">${esc(x.error)}</div>`:''}</div>`}).join('')||'<div class="empty">Abhi koi message nahi</div>'}
+if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js');show();
+</script></body></html>
